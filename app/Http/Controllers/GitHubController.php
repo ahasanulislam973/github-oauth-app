@@ -21,7 +21,7 @@ class GitHubController extends Controller
         try {
             $githubUser = Socialite::driver('github')->user();
             $repos = $this->getPublicRepositories($githubUser->token);
-           
+
             $user = GitHubUser::updateOrCreate(
                 ['github_id' => $githubUser->id],
                 [
@@ -31,7 +31,7 @@ class GitHubController extends Controller
                     'public_repos_count' => $githubUser->user['public_repos'],
                 ]
             );
-    
+
             foreach ($repos as $repoData) {
                 GitHubRepo::updateOrCreate(
                     [
@@ -47,14 +47,14 @@ class GitHubController extends Controller
                     ]
                 );
             }
-    
+
             session(['github_user_id' => $user->id]);
             return redirect()->route('github.profile', ['github_id' => $githubUser->id]);
         } catch (\Exception $e) {
             return redirect('/')->with('error', 'Error logging in with GitHub.');
         }
     }
-    
+
 
     private function getPublicRepositories($token)
     {

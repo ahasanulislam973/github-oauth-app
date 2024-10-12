@@ -17,10 +17,10 @@ use App\Http\Controllers\GitHubUserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
-Route::get('/auth/github', [GitHubController::class, 'redirectToGitHub']);
+Route::get('/auth/github', [GitHubController::class, 'redirectToGitHub'])->name('login.github');
 Route::get('/auth/github/callback', [GitHubController::class, 'handleGitHubCallback']);
 
 Route::get('/github/profile/{github_id}', [GitHubUserController::class, 'showProfile'])->name('github.profile');
